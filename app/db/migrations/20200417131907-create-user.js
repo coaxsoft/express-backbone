@@ -16,6 +16,12 @@ module.exports = {
       last_name: {
         type: Sequelize.STRING
       },
+      google_id: {
+        type: Sequelize.STRING
+      },
+      facebook_id: {
+        type: Sequelize.STRING
+      },
       password: {
         type: Sequelize.STRING
       },

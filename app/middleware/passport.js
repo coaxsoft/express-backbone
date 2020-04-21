@@ -6,6 +6,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const { User } = require('../db/models');
 const bcrypt = require('bcrypt');
+const moment = require('moment');
 
 const jwtOpts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -63,10 +64,19 @@ passport.use(new GoogleStrategy({
 
   if (!userGoogleProfile.email) done(new Error('email is missing'));
 
-  const user = await User.findOne({ where: { email: userGoogleProfile.email } });
-  if (user) return done(null, user);
+  let user = await User.findOne({ where: { email: userGoogleProfile.email } });
 
-  return done(new Error('Error while fetching user.'))
+  if (!user) {
+    user = await User.create({
+      email: userGoogleProfile.email,
+      google_id: userGoogleProfile.sub,
+      first_name: userGoogleProfile.given_name,
+      last_name: userGoogleProfile.family_name,
+      verified_at: moment.now()
+    });
+  }
+
+  return done(null, user);
 }));
 
 passport.use(new FacebookStrategy({
