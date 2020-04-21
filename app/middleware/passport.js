@@ -60,18 +60,17 @@ passport.use(new GoogleStrategy({
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: process.env.GOOGLE_CLIENT_CALLBACK
 }, async function (accessToken, refreshToken, profile, done) {
-  const userGoogleProfile = profile._json;
 
-  if (!userGoogleProfile.email) done(new Error('email is missing'));
+  if (!profile._json.email) done(new Error('email is missing'));
 
-  let user = await User.findOne({ where: { email: userGoogleProfile.email } });
+  let user = await User.findOne({ where: { email: profile._json.email } });
 
   if (!user) {
     user = await User.create({
-      email: userGoogleProfile.email,
-      google_id: userGoogleProfile.sub,
-      first_name: userGoogleProfile.given_name,
-      last_name: userGoogleProfile.family_name,
+      email: profile._json.email,
+      google_id: profile._json.sub,
+      first_name: profile._json.given_name,
+      last_name: profile._json.family_name,
       verified_at: moment.now()
     });
   }
@@ -82,11 +81,23 @@ passport.use(new GoogleStrategy({
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
-  callbackURL: process.env.FACEBOOK_APP_CALLBACK
-}, function (accessToken, refreshToken, profile, cb) {
-  User.findOne({ facebookId: profile.id }, function (err, user) {
-    return cb(err, user);
-  });
+  callbackURL: process.env.FACEBOOK_APP_CALLBACK,
+  profileFields: ['id', 'displayName', 'name', 'email']
+}, async function (accessToken, refreshToken, profile, done) {
+
+  let user = await User.findOne({ where: { email: profile._json.email } });
+
+  if (!user) {
+    user = await User.create({
+      email: profile._json.email,
+      google_id: profile._json.id,
+      first_name: profile._json.first_name,
+      last_name: profile._json.last_name,
+      verified_at: moment.now()
+    });
+  }
+
+  return done(null, user);
 }));
 
 module.exports = passport;
