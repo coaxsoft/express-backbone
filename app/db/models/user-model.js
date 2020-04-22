@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   }, {
+    tableName: 'users',
     hooks: {
       beforeCreate: async user => {
         if (user.password) {
@@ -41,6 +42,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
   User.associate = function(models) {
+    User.hasOne(models.PasswordReset, { foreignKey: 'user_id' });
   };
   User.prototype.getJWTFields = function() {
     return {

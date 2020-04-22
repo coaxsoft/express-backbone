@@ -1,11 +1,12 @@
 const { EventEmitter } = require('events');
-const mailjet = require('./mail-provider');
+const { mailjet } = require('./mail-provider');
 
 const event = new EventEmitter();
 
-event.on('send', async (user) => {
+event.on('send', async (user, host, slug) => {
   try {
-    const resetCode = '0000'; //TODO change to model method
+    const resetCode = user.PasswordReset.code;
+
     await mailjet
       .post('send', { 'version': 'v3.1' })
       .request({
@@ -22,7 +23,8 @@ event.on('send', async (user) => {
               }
             ],
             Subject: 'Reset Password.',
-            HTMLPart: `<div>Follow the link to reset your password <a href=${process.env.SERVER_DOMAIN}/api/v1/auth/reset-password/${resetCode}>link</a>${process.env.SERVER_DOMAIN}/api/v1/auth/reset-password/${resetCode}</div>`,
+            HTMLPart: `<div>Follow the link to reset your password <a href="http://${host}/${slug}/${resetCode}">link</a>
+http://${host}/${slug}/${resetCode}</div>`,
           }
         ]
       })
@@ -31,8 +33,8 @@ event.on('send', async (user) => {
   }
 });
 
-function sendResetPasswordEmail (user) {
-  event.emit('send', user)
+function sendResetPasswordEmail (user, host, slug) {
+  event.emit('send', user, host, slug.replace(/^\/+|\/+$/g, ''))
 }
 
 

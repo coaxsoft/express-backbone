@@ -1,7 +1,9 @@
 const moment = require('moment');
-const { User } = require('../db/models');
+const { v4: uuidv4 } = require('uuid');
+const { User, PasswordReset } = require('../db/models');
 const { sendVerifyEmail } = require('../emails/verify-account-email');
 const jwt = require('../functions/jwt');
+const { sendResetPasswordEmail } = require('../emails/reset-password-email');
 
 async function emailAuth(req, res) {
 
@@ -44,30 +46,56 @@ async function verify(req, res, next) {
   return res.json({ user });
 }
 
-async function forgotPassword(req, res) {
-  const { email } = req.body;
-  const user = await User.findOne({ where: { email } });
-  //TODO send reset-pasword email
+async function forgotPassword(req, res, next) {
+  const { email, slug } = req.body;
+  const user = await User.findOne({ where: { email }, include: [{ model: PasswordReset }] });
+
+  if (!user) return next({ status: 404 });
+
+  const code = await PasswordReset.create({
+    code: uuidv4()
+  });
+
+  if (user.PasswordReset) user.PasswordReset.destroy();
+
+  await user.setPasswordReset(code);
+
+  sendResetPasswordEmail(user, req.headers.host, slug);
 
   return res.json(true);
 }
 
-async function forgotPasswordCheck(req, res) {
-  const { hash } = req.params;
+async function forgotPasswordCheck(req, res, next) {
+  const { code, password } = req.body;
 
-  return res.redirect(); //TODO redirect
+  const user = await User.findOne({
+    include: [{
+      model: PasswordReset,
+      where: {
+        code
+      }
+    }]
+  });
+
+  if (!user) return next({ status: 404 });
+
+  user.PasswordReset.destroy();
+  user.password = password;
+  user.save();
+
+  return res.end();
 }
 
 async function googleAuth(req, res) {
   const token = jwt.generateJWT(req.user);
 
-  return res.json({ token });
+  return res.redirect(`${process.env.CLIENT_DOMAIN}/login/${token}`);
 }
 
 async function facebookAuth(req, res) {
   const token = jwt.generateJWT(req.user);
 
-  return res.json({ token });
+  return res.redirect(`${process.env.CLIENT_DOMAIN}/login/${token}`);
 }
 
 module.exports = {
