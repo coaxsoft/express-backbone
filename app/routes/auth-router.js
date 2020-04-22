@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
+
 const passport = require('../middleware/passport');
 const auth = require('../controllers/auth-controller');
+const registerSchema = require('../middleware/express-validation/register-user-schema');
+const validate = require('../middleware/express-validation/validate');
 
 router.post('/login', passport.authenticate('local', { session: false }), auth.emailAuth);
 
-router.post('/register', auth.register);
+router.post('/register', registerSchema, validate, auth.register);
 
 router.get('/verify/:code', auth.verify);
 

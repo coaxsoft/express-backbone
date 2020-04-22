@@ -8,8 +8,11 @@ async function emailAuth(req, res) {
   return res.json({ token });
 }
 
-async function register(req, res) {
+async function register(req, res, next) {
   const { email, first_name, last_name, password } = req.body;
+  const existingUser = await User.findOne({ where: { email } });
+
+  if (existingUser) return next({ status: 409 }); //409 Conflict
 
   await User.create({
     email,
