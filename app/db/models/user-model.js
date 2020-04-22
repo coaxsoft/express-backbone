@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 module.exports = (sequelize, DataTypes) => {
   const protectedFields = [
     'password'
@@ -17,6 +19,18 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   }, {
+    hooks: {
+      beforeCreate: async user => {
+        if (user.password) {
+          user.password = await bcrypt.hash(user.password, 10);
+        }
+      },
+      beforeUpdate: async user => {
+        if (user._changed.password) {
+          user.password = await bcrypt.hash(user.password, 10);
+        }
+      }
+    },
     defaultScope: {
       attributes: { exclude: [...protectedFields] }
     },
@@ -24,15 +38,16 @@ module.exports = (sequelize, DataTypes) => {
       withPassword: {
         attributes: { include: ['password'] }
       }
-    },
-    getAuthFields: () => {
-      return {
-        email: this.email,
-        first_name: this.first_name
-      }
     }
   });
   User.associate = function(models) {
+  };
+  User.prototype.getJWTFields = function() {
+    return {
+      email: this.email,
+      first_name: this.first_name,
+      last_name: this.last_name
+    }
   };
 
   return User;

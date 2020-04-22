@@ -1,7 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('../middleware/passport');
-const auth = require('../controllers/auth');
+const auth = require('../controllers/auth-controller');
+
+router.post('/login', passport.authenticate('local', { session: false }), auth.emailAuth);
+
+router.post('/register', auth.register);
+
+router.get('/verify/:code', auth.verify);
+
+router.post('/forgot-password', auth.forgotPassword);
+
+router.get('/forgot-password/:hash', auth.forgotPasswordCheck);
 
 /**
  * requested scope should be allowed in google development console

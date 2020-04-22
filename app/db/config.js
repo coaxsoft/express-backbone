@@ -1,14 +1,14 @@
 require('dotenv').config();
-let config = {
+const config = {
   username: 'express_user',
   password: 'password',
   database: 'express_db',
   host: 'localhost',
   dialect: 'postgres',
-  // logging: console.log
+  logging: false
 };
 
-if(process.env.NODE_ENV === 'test') {
+if (process.env.NODE_ENV === 'test') {
   config.username = process.env.TEST_DB_USER;
   config.password = process.env.TEST_DB_PASSWORD;
   config.database = process.env.TEST_DB_NAME;

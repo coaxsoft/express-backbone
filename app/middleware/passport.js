@@ -44,7 +44,7 @@ passport.use(new LocalStrategy(
         return done({ status: 401, message: 'Email or password is wrong' });
       }
 
-      return done(null, user.getAuthFields());
+      return done(null, user);
     } catch (e) {
       return done(e);
     }
