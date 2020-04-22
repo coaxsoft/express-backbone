@@ -9,7 +9,13 @@ module.exports = (sequelize, DataTypes) => {
     google_id: DataTypes.STRING,
     facebook_id: DataTypes.STRING,
     password: DataTypes.STRING,
-    verified_at: DataTypes.DATE
+    verified_at: DataTypes.DATE,
+    full_name: {
+      type: DataTypes.VIRTUAL,
+      get () {
+        return `${this.first_name} ${this.last_name}`
+      }
+    }
   }, {
     defaultScope: {
       attributes: { exclude: [...protectedFields] }
