@@ -6,4 +6,11 @@ module.exports = {
 
     return jwt.sign(userFields, process.env.SECRET, { expiresIn: process.env.JWT_EXPIRATION });
   },
+  verifyJWT: (token) => {
+    try {
+      return jwt.verify(token, process.env.SECRET);
+    } catch (e) {
+      return false;
+    }
+  }
 };

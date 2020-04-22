@@ -1,11 +1,12 @@
 const { EventEmitter } = require('events');
-const mailjet = require('./mail-provider');
+const { mailjet } = require('./mail-provider');
+const jwt = require('../functions/jwt');
 
 const event = new EventEmitter();
 
 event.on('send', async (user) => {
   try {
-    const resetCode = '0000'; //TODO change to model method
+    const code = jwt.generateJWT(user);
     await mailjet
       .post('send', { 'version': 'v3.1' })
       .request({
@@ -21,8 +22,10 @@ event.on('send', async (user) => {
                 Name: user.full_name
               }
             ],
-            Subject: 'Reset Password.',
-            HTMLPart: `<div>Follow the link to reset your password <a href=${process.env.SERVER_DOMAIN}/api/v1/auth/reset-password/${resetCode}>link</a>${process.env.SERVER_DOMAIN}/api/v1/auth/reset-password/${resetCode}</div>`,
+            Subject: 'Verify your email',
+            HTMLPart: `<div>Follow the <a href=${process.env.SERVER_DOMAIN}/api/v1/auth/verify/${code}>link</a> to verify your account </div>
+<br>
+<div>${process.env.SERVER_DOMAIN}/api/v1/auth/verify/${code}</div>`,
           }
         ]
       })
@@ -31,11 +34,11 @@ event.on('send', async (user) => {
   }
 });
 
-function sendResetPasswordEmail (user) {
+function sendVerifyEmail (user) {
   event.emit('send', user)
 }
 
 
 module.exports = {
-  sendResetPasswordEmail
+  sendVerifyEmail
 };

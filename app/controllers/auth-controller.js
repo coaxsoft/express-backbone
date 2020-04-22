@@ -1,5 +1,7 @@
-const jwt = require('../functions/jwt');
+const moment = require('moment');
 const { User } = require('../db/models');
+const { sendVerifyEmail } = require('../emails/verify-account-email');
+const jwt = require('../functions/jwt');
 
 async function emailAuth(req, res) {
 
@@ -22,15 +24,24 @@ async function register(req, res, next) {
   });
 
   const user = await User.findOne({ where: { email } });
+  sendVerifyEmail(user);
 
   return res.json({ user });
 }
 
-async function verify(req, res) {
+async function verify(req, res, next) {
   const { code } = req.params;
-  //TODO add model  & logic
+  const decodedUser = jwt.verifyJWT(code);
+  if (!decodedUser) {
+    return next({ status: 401 }); //TODO is that correct code?
+  }
 
-  return res.json(true);
+  const user = await User.findOne({ where: { email: decodedUser.email } });
+
+  if (!user) return next({ status: 404 });
+  user.verified_at = moment.now();
+
+  return res.json({ user });
 }
 
 async function forgotPassword(req, res) {
