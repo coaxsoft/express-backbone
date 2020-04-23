@@ -4,7 +4,7 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
-const { User } = require('../db/models');
+const { User, Role } = require('../db/models');
 const bcrypt = require('bcrypt');
 const moment = require('moment');
 
@@ -52,7 +52,17 @@ passport.use(new LocalStrategy(
 ));
 
 passport.use(new JwtStrategy(jwtOpts, async function (req, jwt_payload, done) {
-  const user = await User.findOne({ where: { email: jwt_payload.email } }); //TODO include role
+  const user = await User.findOne({
+    where: {
+      email: jwt_payload.email
+    }, include: [{
+      model: Role,
+      attributes: ['id', 'role_name'],
+      through: {
+        attributes: []
+      }
+    }]
+  }); //TODO include role
 
   return done(null, user);
 }));
