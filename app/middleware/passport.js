@@ -52,7 +52,9 @@ passport.use(new LocalStrategy(
 ));
 
 passport.use(new JwtStrategy(jwtOpts, async function (req, jwt_payload, done) {
-  return done(null, { ...jwt_payload });
+  const user = await User.findOne({ where: { email: jwt_payload.email } }); //TODO include role
+
+  return done(null, user);
 }));
 
 passport.use(new GoogleStrategy({

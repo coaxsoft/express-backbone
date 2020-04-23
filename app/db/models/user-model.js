@@ -43,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   User.associate = function(models) {
     User.hasOne(models.PasswordReset, { foreignKey: 'user_id' });
+    User.belongsToMany(models.Role, { through: 'role_user', foreignKey: 'user_id', timestamps: false })
   };
   User.prototype.getJWTFields = function() {
     return {

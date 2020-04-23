@@ -1,12 +1,12 @@
 const moment = require('moment');
 const { v4: uuidv4 } = require('uuid');
-const { User, PasswordReset } = require('../db/models');
+const { User, PasswordReset, Role, Sequelize } = require('../db/models');
 const { sendVerifyEmail } = require('../emails/verify-account-email');
 const jwt = require('../functions/jwt');
 const { sendResetPasswordEmail } = require('../emails/reset-password-email');
+const Op = Sequelize.Op;
 
 async function emailAuth(req, res) {
-
   const token = jwt.generateJWT(req.user);
 
   return res.json({ token });
@@ -15,20 +15,26 @@ async function emailAuth(req, res) {
 async function register(req, res, next) {
   const { email, first_name, last_name, password } = req.body;
   const existingUser = await User.findOne({ where: { email } });
+  try {
+    if (existingUser) return next({ status: 409 }); //409 Conflict
 
-  if (existingUser) return next({ status: 409 }); //409 Conflict
+    const newUser = await User.create({
+      email,
+      first_name,
+      last_name,
+      password
+    });
+    const userRole = await Role.findOne({ where: { role_name: 'User' } });
+    await newUser.setRoles(userRole);
 
-  await User.create({
-    email,
-    first_name,
-    last_name,
-    password
-  });
+    const user = await User.findOne({ where: { email } });
+    sendVerifyEmail(user);
+    
+    return res.json({ user });
+  } catch (e) {
+    console.error(e.message);
+  }
 
-  const user = await User.findOne({ where: { email } });
-  sendVerifyEmail(user);
-
-  return res.json({ user });
 }
 
 async function verify(req, res, next) {
@@ -72,7 +78,14 @@ async function forgotPasswordCheck(req, res, next) {
     include: [{
       model: PasswordReset,
       where: {
-        code
+        [Op.and]: [{
+          code
+        },
+        {
+          createdAt: {
+            [Op.gte]: moment().subtract(1, 'hour')
+          }
+        }]
       }
     }]
   });

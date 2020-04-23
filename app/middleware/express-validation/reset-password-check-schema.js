@@ -2,6 +2,11 @@ const { checkSchema } = require('express-validator');
 const passwordValidator = require('password-validator');
 
 module.exports = checkSchema({
+  code: {
+    in: ['body'],
+    exists: true,
+    isString: true
+  },
   password: {
     in: ['body'],
     exists: true,
