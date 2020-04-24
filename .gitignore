@@ -28,3 +28,5 @@ typings/
 # dotenv environment variables file
 .env
 /uploads/
+/.nyc_output/
+
