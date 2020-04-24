@@ -1,4 +1,5 @@
 const { User, Role, Sequelize } = require('../db/models');
+const { formPaginated, getOffset } = require('../functions/pagination');
 const Op = Sequelize.Op;
 
 async function getUser(req, res) {
@@ -9,7 +10,8 @@ async function getUser(req, res) {
 }
 
 async function getUsers(req, res) {
-  const { search } = req.query;
+  const { search, page, perPage: limit } = req.query;
+  const offset = getOffset(page, limit);
   let where = {};
   if (search) {
     where = {
@@ -29,7 +31,7 @@ async function getUsers(req, res) {
     };
   }
 
-  const users = await User.findAll({
+  const users = await User.findAndCountAll({
     include: [{
       model: Role,
       attributes: ['id', 'roleName'],
@@ -37,10 +39,12 @@ async function getUsers(req, res) {
         attributes: []
       }
     }],
-    where
+    where,
+    offset,
+    limit,
   });
 
-  return res.json(users);
+  return res.json(formPaginated(users, page, limit));
 }
 
 async function deleteUser(req, res) {
