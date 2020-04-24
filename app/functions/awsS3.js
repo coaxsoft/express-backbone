@@ -12,26 +12,26 @@ const params = {
 };
 
 async function upload(file) {
-
   const fileExtention = path.extname(file.originalname);
   const fileName = path.basename(file.originalname);
   const key = `${fileName}-${uuidv4()}${fileExtention}`;
 
-  const uploadParamsThumb = { Bucket: process.env.AWS_S3_BUCKET_NAME, Key: key, Body: file };
-  const uploadResult = await new Promise((resolve, reject) => {
-    s3.upload(uploadParamsThumb, function (err, data) {
-      if (err) {
-        console.error(err.message);
-        reject(err.message);
-      }
-      if (data) {
-        resolve(data);
-      }
+  const uploadParamsThumb = { Bucket: process.env.AWS_S3_BUCKET_NAME, Key: key, Body: file.buffer };
+  try {
+    return await new Promise((resolve, reject) => {
+      s3.upload(uploadParamsThumb, function (err, data) {
+        if (err) {
+          console.error(err.message);
+          reject(err);
+        }
+        if (data) {
+          resolve(data);
+        }
+      });
     });
-  });
-  //TODO erase uploaded file from server disk
-
-  return uploadResult.Key;
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 async function remove(key) {
