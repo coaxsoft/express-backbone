@@ -18,11 +18,11 @@ async function getUsers(req, res) {
           [Op.like]: `${search}%`
         }
       }, {
-        first_name: {
+        firstName: {
           [Op.like]: `${search}%`
         }
       }, {
-        last_name: {
+        lastName: {
           [Op.like]: `${search}%`
         }
       }]
@@ -32,7 +32,7 @@ async function getUsers(req, res) {
   const users = await User.findAll({
     include: [{
       model: Role,
-      attributes: ['id', 'role_name'],
+      attributes: ['id', 'roleName'],
       through: {
         attributes: []
       }

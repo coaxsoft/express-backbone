@@ -6,20 +6,19 @@ module.exports = (sequelize, DataTypes) => {
   ];
   const User = sequelize.define('User', {
     email: DataTypes.STRING,
-    first_name: DataTypes.STRING,
-    last_name: DataTypes.STRING,
-    google_id: DataTypes.STRING,
-    facebook_id: DataTypes.STRING,
+    firstName: DataTypes.STRING,
+    lastName: DataTypes.STRING,
+    googleId: DataTypes.STRING,
+    facebookId: DataTypes.STRING,
     password: DataTypes.STRING,
-    verified_at: DataTypes.DATE,
-    full_name: {
+    verifiedAt: DataTypes.DATE,
+    fullName: {
       type: DataTypes.VIRTUAL,
       get () {
-        return `${this.first_name} ${this.last_name}`
+        return `${this.firstName} ${this.lastName}`
       }
     }
   }, {
-    tableName: 'users',
     paranoid: true,
     hooks: {
       beforeCreate: async user => {
@@ -43,14 +42,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
   User.associate = function(models) {
-    User.hasOne(models.PasswordReset, { foreignKey: 'user_id' });
-    User.belongsToMany(models.Role, { through: 'role_user', foreignKey: 'user_id', timestamps: false })
+    User.hasOne(models.PasswordReset, { foreignKey: 'userId' });
+    User.belongsToMany(models.Role, { through: 'Role_User', foreignKey: 'userId', timestamps: false })
   };
   User.prototype.getJWTFields = function() {
     return {
       email: this.email,
-      first_name: this.first_name,
-      last_name: this.last_name
+      firstName: this.firstName,
+      lastName: this.lastName
     }
   };
 

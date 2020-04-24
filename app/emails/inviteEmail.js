@@ -1,5 +1,5 @@
 const { EventEmitter } = require('events');
-const { mailjet } = require('./mail-provider');
+const { mailjet } = require('./mailProvider');
 
 const event = new EventEmitter();
 
@@ -20,8 +20,8 @@ event.on('send', async (invitation, host, slug) => {
               }
             ],
             Subject: 'Invite.',
-            HTMLPart: `<div>To accept Invite follow the <a href="http://${host}/${slug}/${invitation.invite_code}">link</a>
-http://${host}/${slug}/${invitation.invite_code}</div>`,
+            HTMLPart: `<div>To accept Invite follow the <a href="http://${host}/${slug}/${invitation.inviteCode}">link</a>
+http://${host}/${slug}/${invitation.inviteCode}</div>`,
           }
         ]
       })

@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 const { Invite, Sequelize } = require('../db/models');
-const { sendInvitationEmail } = require('../emails/invite-email');
+const { sendInvitationEmail } = require('../emails/inviteEmail');
 const Op = Sequelize.Op;
 
 async function inviteUser(req, res, next) {
@@ -11,8 +11,8 @@ async function inviteUser(req, res, next) {
 
   const invite = await Invite.create({
     email,
-    invite_code: uuidv4(),
-    author_id: req.user.id
+    inviteCode: uuidv4(),
+    authorId: req.user.id
   });
   sendInvitationEmail(invite, req.headers.host, slug);
   return res.json(invite);
@@ -27,13 +27,13 @@ async function deleteInvitation(req, res) {
 }
 
 async function cancelInvitation(req, res) {
-  const { invite_code } = req.params;
+  const { inviteCode } = req.params;
 
   const updateResult = await Invite.update({
     status: Invite.constants.canceledInvite
   }, {
     where: {
-      invite_code,
+      inviteCode: inviteCode,
       status: Invite.constants.newInvite
     }
   });
@@ -42,13 +42,13 @@ async function cancelInvitation(req, res) {
 }
 
 async function acceptInvitation(req, res) {
-  const { invite_code } = req.params;
+  const { inviteCode } = req.params;
 
   const updateResult = await Invite.update({
     status: Invite.constants.acceptedInvite
   }, {
     where: {
-      invite_code,
+      inviteCode: inviteCode,
       status: Invite.constants.newInvite
     }
   });

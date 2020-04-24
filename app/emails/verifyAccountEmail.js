@@ -1,5 +1,5 @@
 const { EventEmitter } = require('events');
-const { mailjet } = require('./mail-provider');
+const { mailjet } = require('./mailProvider');
 const jwt = require('../functions/jwt');
 
 const event = new EventEmitter();
@@ -19,7 +19,7 @@ event.on('send', async (user) => {
             To: [
               {
                 Email: user.email,
-                Name: user.full_name
+                Name: user.fullName
               }
             ],
             Subject: 'Verify your email',

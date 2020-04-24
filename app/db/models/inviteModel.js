@@ -1,12 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
   const Invite = sequelize.define('Invite', {
     email: DataTypes.STRING,
-    invite_code: DataTypes.STRING,
+    inviteCode: DataTypes.STRING,
     status: DataTypes.INTEGER,
-    author_id: DataTypes.INTEGER
-  }, {
-    tableName: 'invites'
-  });
+    authorId: DataTypes.INTEGER
+  }, {});
   Invite.associate = function(models) {
     // associations can be defined here
   };

@@ -2,13 +2,13 @@ const { checkSchema } = require('express-validator');
 const passwordValidator = require('password-validator');
 
 module.exports = checkSchema({
-  first_name: {
+  firstName: {
     in: ['body'],
     exists: true,
     isString: true,
     trim: true,
   },
-  last_name: {
+  lastName: {
     in: ['body'],
     exists: true,
     isString: true,

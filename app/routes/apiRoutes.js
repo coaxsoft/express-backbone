@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
-const usersRouter = require('./users-router');
-const authRouter = require('./auth-router');
-const invitesRouter = require('./invites-router');
+const usersRouter = require('./usersRouter');
+const authRouter = require('./authRouter');
+const invitesRouter = require('./invitesRouter');
 
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);

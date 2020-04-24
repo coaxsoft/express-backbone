@@ -1,9 +1,9 @@
 const moment = require('moment');
 const { v4: uuidv4 } = require('uuid');
 const { User, PasswordReset, Role, Sequelize } = require('../db/models');
-const { sendVerifyEmail } = require('../emails/verify-account-email');
+const { sendVerifyEmail } = require('../emails/verifyAccountEmail');
 const jwt = require('../functions/jwt');
-const { sendResetPasswordEmail } = require('../emails/reset-password-email');
+const { sendResetPasswordEmail } = require('../emails/resetPasswordEmail');
 const Op = Sequelize.Op;
 
 async function emailAuth(req, res) {
@@ -13,18 +13,18 @@ async function emailAuth(req, res) {
 }
 
 async function register(req, res, next) {
-  const { email, first_name, last_name, password } = req.body;
+  const { email, firstName, lastName, password } = req.body;
   const existingUser = await User.findOne({ where: { email } });
   try {
     if (existingUser) return next({ status: 409 }); //409 Conflict
 
     const newUser = await User.create({
       email,
-      first_name,
-      last_name,
+      firstName,
+      lastName,
       password
     });
-    const userRole = await Role.findOne({ where: { role_name: 'User' } });
+    const userRole = await Role.findOne({ where: { roleName: 'User' } });
     await newUser.setRoles(userRole);
 
     const user = await User.findOne({ where: { email } });
@@ -47,7 +47,7 @@ async function verify(req, res, next) {
   const user = await User.findOne({ where: { email: decodedUser.email } });
 
   if (!user) return next({ status: 404 });
-  user.verified_at = moment.now();
+  user.verifiedAt = moment.now();
 
   return res.json({ user });
 }

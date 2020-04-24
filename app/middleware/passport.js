@@ -34,7 +34,7 @@ passport.use(new LocalStrategy(
         return done({ status: 401, message: 'Email or password is wrong' });
       }
 
-      if (user.verified_at === null) {
+      if (user.verifiedAt === null) {
         return done({ status: 403, message: 'Verify your email first' })
       }
 
@@ -57,12 +57,12 @@ passport.use(new JwtStrategy(jwtOpts, async function (req, jwt_payload, done) {
       email: jwt_payload.email
     }, include: [{
       model: Role,
-      attributes: ['id', 'role_name'],
+      attributes: ['id', 'roleName'],
       through: {
         attributes: []
       }
     }]
-  }); //TODO include role
+  });
 
   return done(null, user);
 }));
@@ -80,10 +80,10 @@ passport.use(new GoogleStrategy({
   if (!user) {
     user = await User.create({
       email: profile._json.email,
-      google_id: profile._json.sub,
-      first_name: profile._json.given_name,
-      last_name: profile._json.family_name,
-      verified_at: moment.now()
+      googleId: profile._json.sub,
+      firstName: profile._json.given_name,
+      lastName: profile._json.family_name,
+      verifiedAt: moment.now()
     });
   }
 
@@ -102,10 +102,10 @@ passport.use(new FacebookStrategy({
   if (!user) {
     user = await User.create({
       email: profile._json.email,
-      google_id: profile._json.id,
-      first_name: profile._json.first_name,
-      last_name: profile._json.last_name,
-      verified_at: moment.now()
+      facebookId: profile._json.id,
+      firstName: profile._json.first_name,
+      lastName: profile._json.last_name,
+      verifiedAt: moment.now()
     });
   }
 

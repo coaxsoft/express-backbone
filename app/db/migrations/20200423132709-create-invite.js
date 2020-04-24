@@ -1,17 +1,16 @@
-'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('invites', {
+    return queryInterface.createTable('Invites', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      author_id: {
+      authorId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'users',
+          model: 'Users',
           key: 'id',
         },
         onUpdate: 'CASCADE',
@@ -21,7 +20,7 @@ module.exports = {
         type: Sequelize.STRING,
         unique: true
       },
-      invite_code: {
+      inviteCode: {
         type: Sequelize.STRING
       },
       status: {
@@ -38,7 +37,7 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('invites');
+  down: (queryInterface) => {
+    return queryInterface.dropTable('Invites');
   }
 };

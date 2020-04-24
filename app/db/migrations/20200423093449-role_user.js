@@ -2,20 +2,20 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('role_user', {
-      role_id: {
+    return queryInterface.createTable('Role_User', {
+      roleId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'roles',
+          model: 'Roles',
           key: 'id',
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      user_id: {
+      userId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'users',
+          model: 'Users',
           key: 'id',
         },
         onUpdate: 'CASCADE',
@@ -25,6 +25,6 @@ module.exports = {
   },
 
   down: (queryInterface) => {
-    return queryInterface.dropTable('role_user');
+    return queryInterface.dropTable('Role_User');
   }
 };
