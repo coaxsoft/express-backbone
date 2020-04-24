@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('../middleware/passport');
 const invitesController = require('../controllers/invitesController');
-const inviteSchema = require('../middleware/expressValidation/inviteUserSchema');
+const inviteSchema = require('../middleware/expressValidation/invitesValidation/inviteUserSchema');
 const validate = require('../middleware/expressValidation/validate');
 
 const multer = require('multer');

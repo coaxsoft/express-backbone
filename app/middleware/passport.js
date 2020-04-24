@@ -94,7 +94,7 @@ passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
   callbackURL: process.env.FACEBOOK_APP_CALLBACK,
-  profileFields: ['id', 'displayName', 'name', 'email']
+  profileFields: ['id', 'displayName', 'name', 'email'] //This is a scope claims. Without it most of the fields will be blank
 }, async function (accessToken, refreshToken, profile, done) {
 
   let user = await User.findOne({ where: { email: profile._json.email } });
