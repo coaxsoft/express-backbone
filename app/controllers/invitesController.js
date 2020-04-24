@@ -1,7 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 const { Invite, Sequelize } = require('../db/models');
 const { sendInvitationEmail } = require('../emails/inviteEmail');
-const Op = Sequelize.Op;
 
 async function inviteUser(req, res, next) {
   const { email, slug } = req.body;
