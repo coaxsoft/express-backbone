@@ -27,7 +27,13 @@ async function register(req, res, next) {
     const userRole = await Role.findOne({ where: { roleName: 'User' } });
     await newUser.setRoles(userRole);
 
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email }, include: [{
+      model: Role,
+      attributes: ['id', 'roleName'],
+      through: {
+        attributes: []
+      }
+    }] });
     sendVerifyEmail(user);
     
     return res.json({ user });

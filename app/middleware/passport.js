@@ -75,16 +75,31 @@ passport.use(new GoogleStrategy({
 
   if (!profile._json.email) done(new Error('email is missing'));
 
-  let user = await User.findOne({ where: { email: profile._json.email } });
+  let user = await User.findOne({ where: { email: profile._json.email }, include: [{
+    model: Role,
+    attributes: ['id', 'roleName'],
+    through: {
+      attributes: []
+    }
+  }] });
 
   if (!user) {
-    user = await User.create({
+    const newUser = await User.create({
       email: profile._json.email,
       googleId: profile._json.sub,
       firstName: profile._json.given_name,
       lastName: profile._json.family_name,
       verifiedAt: moment.now()
     });
+    const userRole = await Role.findOne({ where: { roleName: 'User' } });
+    await newUser.setRoles(userRole);
+    user = await User.findOne({ where: { email: profile._json.email }, include: [{
+      model: Role,
+      attributes: ['id', 'roleName'],
+      through: {
+        attributes: []
+      }
+    }] });
   }
 
   return done(null, user);
@@ -97,16 +112,31 @@ passport.use(new FacebookStrategy({
   profileFields: ['id', 'displayName', 'name', 'email'] //This is a scope claims. Without it most of the fields will be blank
 }, async function (accessToken, refreshToken, profile, done) {
 
-  let user = await User.findOne({ where: { email: profile._json.email } });
+  let user = await User.findOne({ where: { email: profile._json.email }, include: [{
+    model: Role,
+    attributes: ['id', 'roleName'],
+    through: {
+      attributes: []
+    }
+  }] });
 
   if (!user) {
-    user = await User.create({
+    const newUser = await User.create({
       email: profile._json.email,
       facebookId: profile._json.id,
       firstName: profile._json.first_name,
       lastName: profile._json.last_name,
       verifiedAt: moment.now()
     });
+    const userRole = await Role.findOne({ where: { roleName: 'User' } });
+    await newUser.setRoles(userRole);
+    user = await User.findOne({ where: { email: profile._json.email }, include: [{
+      model: Role,
+      attributes: ['id', 'roleName'],
+      through: {
+        attributes: []
+      }
+    }] });
   }
 
   return done(null, user);
