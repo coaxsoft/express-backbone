@@ -4,11 +4,12 @@ const router = express.Router();
 const passport = require('../middleware/passport');
 const authController = require('../controllers/authController');
 const registerSchema = require('../middleware/expressValidation/authValidation/registerUserSchema');
+const loginSchema = require('../middleware/expressValidation/authValidation/loginSchema');
 const resetPasswordSchema = require('../middleware/expressValidation/authValidation/resetPasswordSchema');
 const resetPasswordCheckSchema = require('../middleware/expressValidation/authValidation/resetPasswordCheckSchema');
 const validate = require('../middleware/expressValidation/validate');
 
-router.post('/login', passport.authenticate('local', { session: false }), authController.emailAuth);
+router.post('/login', loginSchema, validate, passport.authenticate('local', { session: false }), authController.emailAuth);
 
 router.post('/register', registerSchema, validate, authController.register);
 

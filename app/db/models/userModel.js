@@ -5,7 +5,14 @@ module.exports = (sequelize, DataTypes) => {
     'password'
   ];
   const User = sequelize.define('User', {
-    email: DataTypes.STRING,
+    email: {
+      type: DataTypes.STRING,
+      set(value) {
+        if (typeof value === 'string') {
+          this.setDataValue('email', value.toLowerCase());
+        }
+      }
+    },
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     googleId: DataTypes.STRING,
@@ -38,6 +45,9 @@ module.exports = (sequelize, DataTypes) => {
     scopes: {
       withPassword: {
         attributes: { include: ['password'] }
+      },
+      withRoles: {
+        include: 'Roles'
       }
     }
   });

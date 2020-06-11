@@ -12,7 +12,7 @@ function formPaginated(data, page, limit) {
 }
 
 function getOffset(page, limit) {
-  return Math.abs(page - 1) * limit;
+  return Math.abs((page || 1) - 1) * (limit || 10);
 }
 
 module.exports = {

@@ -28,7 +28,7 @@ passport.use(new LocalStrategy(
     passwordField: 'password'
   }, async function (email, password, done) {
     try {
-      const user = await User.scope(['withPassword']).findOne({ where: { email } });
+      const user = await User.scope(['withPassword', 'withRoles']).findOne({ where: { email } });
 
       if (!user || !user.password) {
         return done({ status: 401, message: 'Email or password is wrong' });

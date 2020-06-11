@@ -4,7 +4,7 @@ const Op = Sequelize.Op;
 
 async function getUser(req, res) {
   const { id } = req.params;
-  const user = await User.findOne({ id });
+  const user = await User.findOne({ id: id });
 
   return res.json(user);
 }
@@ -12,6 +12,7 @@ async function getUser(req, res) {
 async function getUsers(req, res) {
   const { search, page, perPage: limit } = req.query;
   const offset = getOffset(page, limit);
+  console.log(offset);
   let where = {};
   if (search) {
     where = {

@@ -35,7 +35,7 @@ async function register(req, res, next) {
       }
     }] });
     sendVerifyEmail(user);
-    
+
     return res.json({ user });
   } catch (e) {
     console.error(e.message);
@@ -60,7 +60,7 @@ async function verify(req, res, next) {
 
 async function forgotPassword(req, res, next) {
   const { email, slug } = req.body;
-  const user = await User.findOne({ where: { email }, include: [{ model: PasswordReset }] });
+  let user = await User.findOne({ where: { email }, include: [{ model: PasswordReset }] });
 
   if (!user) return next({ status: 404 });
 
@@ -71,10 +71,10 @@ async function forgotPassword(req, res, next) {
   if (user.PasswordReset) user.PasswordReset.destroy();
 
   await user.setPasswordReset(code);
-
+  user = await User.findOne({ where: { email }, include: [{ model: PasswordReset }] });
   sendResetPasswordEmail(user, req.headers.host, slug);
 
-  return res.json(true);
+  return res.status(204).end();
 }
 
 async function forgotPasswordCheck(req, res, next) {

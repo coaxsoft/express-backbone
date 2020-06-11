@@ -14,7 +14,6 @@ const isAllowed = (requestedRoles, userRoles) => {
 
 function allow(roles) {
   return (req, res, next) => {
-
     if (isAllowed(roles, req.user.Roles)) {
       return next();
     }
