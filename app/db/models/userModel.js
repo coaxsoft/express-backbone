@@ -1,4 +1,6 @@
 const bcrypt = require('bcrypt');
+const uniqid = require("uniqid");
+const faker = require("faker");
 
 module.exports = (sequelize, DataTypes) => {
   const protectedFields = [
@@ -61,6 +63,22 @@ module.exports = (sequelize, DataTypes) => {
       firstName: this.firstName,
       lastName: this.lastName
     }
+  };
+
+  User.generate = async (options) => {
+    const entityToSave = {
+      email: `${uniqid()}_${faker.internet.email()}`,
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      googleId: faker.random.word(),
+      facebookId: faker.random.word(),
+      password: faker.internet.password(),
+      verifiedAt: faker.date.past(),
+    };
+
+    const response = await User.create({ ...entityToSave, ...options });
+
+    return response;
   };
 
   return User;

@@ -7,7 +7,8 @@
     "dev": "nodemon --inspect ./bin/www",
     "lint": "./node_modules/.bin/eslint .",
     "test": "NODE_ENV=test mocha test/* --recursive --exit",
-    "coverage": "nyc npm run test"
+    "coverage": "nyc npm run test",
+    "m": "sequelize db:migrate && sequelize db:migrate --env test"
   },
   "dependencies": {
     "aws-sdk": "^2.661.0",
@@ -17,12 +18,12 @@
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
     "express-validator": "^6.4.0",
+    "faker": "^4.1.0",
     "jsonwebtoken": "latest",
     "moment": "^2.24.0",
     "morgan": "~1.9.1",
     "multer": "^1.4.2",
     "node-mailjet": "^3.3.1",
-    "nyc": "^15.0.1",
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
@@ -32,6 +33,7 @@
     "pg": "^8.0.2",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.6",
+    "uniqid": "^5.2.0",
     "uuid": "^7.0.3"
   },
   "devDependencies": {
@@ -39,6 +41,7 @@
     "eslint": "^6.8.0",
     "sequelize-cli": "^5.5.1",
     "mocha": "^6.2.2",
+    "nyc": "^15.0.1",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "nodemon": "^1.19.4"
