@@ -1,10 +1,9 @@
 const moment = require('moment');
 const { v4: uuidv4 } = require('uuid');
 const { User, PasswordReset, Role, Sequelize } = require('../db/models');
-const { sendVerifyEmail } = require('../emails/verifyAccountEmail');
 const jwt = require('../functions/jwt');
 const { sendResetPasswordEmail } = require('../emails/resetPasswordEmail');
-const Op = Sequelize.Op;
+const emitter = require("../events/emitter");
 
 async function emailAuth(req, res) {
   const token = jwt.generateJWT(req.user);
@@ -16,31 +15,27 @@ async function register(req, res, next) {
   const { email, firstName, lastName, password } = req.body;
   const existingUser = await User.findOne({ where: { email } });
   try {
-    if (existingUser) return next({ status: 409 }); //409 Conflict
+    if (existingUser) return next({ status: 409 }); // 409 Conflict
 
-    const newUser = await User.create({
-      email,
-      firstName,
-      lastName,
-      password
-    });
+    const newUser = await User.create({ email, firstName, lastName, password });
     const userRole = await Role.findOne({ where: { roleName: 'User' } });
     await newUser.setRoles(userRole);
 
-    const user = await User.findOne({ where: { email }, include: [{
-      model: Role,
-      attributes: ['id', 'roleName'],
-      through: {
-        attributes: []
-      }
-    }] });
-    sendVerifyEmail(user);
+    const user = await User.findOne({
+      where: { email },
+      include: [{
+        model: Role,
+        attributes: ['id', 'roleName'],
+        through: { attributes: [] }
+      }]
+    });
+
+    emitter.emit("userRegistration", user);
 
     return res.json({ user });
   } catch (e) {
-    console.error(e.message);
+    return next(e);
   }
-
 }
 
 async function verify(req, res, next) {
@@ -84,12 +79,12 @@ async function forgotPasswordCheck(req, res, next) {
     include: [{
       model: PasswordReset,
       where: {
-        [Op.and]: [{
+        [Sequelize.Op.and]: [{
           code
         },
         {
           createdAt: {
-            [Op.gte]: moment().subtract(1, 'hour')
+            [Sequelize.Op.gte]: moment().subtract(1, 'hour')
           }
         }]
       }
