@@ -9,11 +9,18 @@ const app = express();
 
 if (process.env.NODE_ENV !== "test") app.use(logger('dev'));
 
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "pug");
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
+
+app.get('/', (req, res, next) => {
+  res.render("homepage", {})
+});
 
 app.use('/api/v1', routes);
 
