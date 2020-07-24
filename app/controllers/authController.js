@@ -2,7 +2,6 @@ const moment = require('moment');
 const { v4: uuidv4 } = require('uuid');
 const { User, PasswordReset, Role, Sequelize } = require('../db/models');
 const jwt = require('../functions/jwt');
-const { sendResetPasswordEmail } = require('../emails/resetPasswordEmail');
 const emitter = require("../events/emitter");
 
 async function emailAuth(req, res) {
@@ -67,7 +66,8 @@ async function forgotPassword(req, res, next) {
 
   await user.setPasswordReset(code);
   user = await User.findOne({ where: { email }, include: [{ model: PasswordReset }] });
-  sendResetPasswordEmail(user, req.headers.host, slug);
+
+  emitter.emit("forgotPassword", user, slug);
 
   return res.status(204).end();
 }

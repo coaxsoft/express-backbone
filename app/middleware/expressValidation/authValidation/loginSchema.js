@@ -1,13 +1,6 @@
 const { checkSchema } = require('express-validator');
+const { email } = require("../general");
 
 module.exports = checkSchema({
-  email: {
-    normalizeEmail: {
-      options: {
-        gmail_remove_dots: false
-      }
-    },
-    isEmail: true,
-    trim: true,
-  }
+  email
 });

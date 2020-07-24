@@ -8,7 +8,7 @@ const jwt = require("../../../app/functions/jwt");
 
 chai.use(chaiHttp);
 
-describe("Account verification code checking - api/v1/auth/verify/:code", () => {
+describe("Account verification code checking - api/v1/auth/verify/:code - GET", () => {
     it("Returns 401 with fabricated code", async () => {
         const res = await chai.request(server)
             .get("/api/v1/auth/verify/bad-code");

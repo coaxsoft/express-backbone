@@ -21,6 +21,24 @@ class MailerService {
                 ]
             })
     }
+
+    async sendForgotPasswordEmail (user, slug) {
+        const resetCode = user.PasswordReset.code;
+
+        await mailjet
+            .post('send', { 'version': 'v3.1' })
+            .request({
+                Messages: [
+                    {
+                        From: { Email: process.env.SYSTEM_EMAIL, Name: 'change to name' },
+                        To: [{ Email: user.email, Name: user.fullName }],
+                        Subject: 'Reset Password.',
+                        HTMLPart: `<div>Follow the link to reset your password <a href="http://${process.env.CLIENT_DOMAIN}/${slug}/${resetCode}">link</a>
+                            http://${process.env.CLIENT_DOMAIN}/${slug}/${resetCode}</div>`,
+                    }
+                ]
+            })
+    }
 }
 
 module.exports = new MailerService();

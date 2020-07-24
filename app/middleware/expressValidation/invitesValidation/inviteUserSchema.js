@@ -1,11 +1,7 @@
 const { checkSchema } = require('express-validator');
-
+const { email } = require("../general");
 module.exports = checkSchema({
-  email: {
-    normalizeEmail: true,
-    isEmail: true,
-    trim: true,
-  },
+  email,
   slug: {
     exists: true,
     trim: true,

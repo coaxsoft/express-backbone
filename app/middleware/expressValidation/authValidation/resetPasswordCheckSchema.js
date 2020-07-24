@@ -1,5 +1,5 @@
 const { checkSchema } = require('express-validator');
-const passwordValidator = require('password-validator');
+const { password } = require("../general")
 
 module.exports = checkSchema({
   code: {
@@ -7,24 +7,7 @@ module.exports = checkSchema({
     exists: true,
     isString: true
   },
-  password: {
-    in: ['body'],
-    exists: true,
-    isString: true,
-    trim: true,
-    custom: {
-      options: (value) => {
-        const schema = new passwordValidator();
-        schema
-          .is().min(1)
-          .is().max(25);
-        const passErrors = schema.validate(value, { list: true });
-        if (passErrors.length === 0) return Promise.resolve();
-
-        return Promise.reject(passErrors[0]);
-      }
-    },
-  },
+  password,
   //TODO clarify if we need password confirm
 
   // passwordConfirm: {
