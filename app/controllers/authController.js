@@ -83,9 +83,7 @@ async function forgotPasswordCheck(req, res, next) {
           code
         },
         {
-          createdAt: {
-            [Sequelize.Op.gte]: moment().subtract(1, 'hour')
-          }
+          createdAt: { [Sequelize.Op.gte]: moment().subtract(1, 'hour') }
         }]
       }
     }]
@@ -97,7 +95,7 @@ async function forgotPasswordCheck(req, res, next) {
   user.password = password;
   user.save();
 
-  return res.end();
+  return res.status(200).send();
 }
 
 async function googleAuth(req, res) {
