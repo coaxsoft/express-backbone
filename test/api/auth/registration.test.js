@@ -39,7 +39,7 @@ describe("Registration tests - api/v1/auth/register - POST", () => {
     });
 
     it("Returns 200 with user in the body", async () => {
-        const email = `${faker.random.word()}_${faker.internet.email()}`
+        const email = `${faker.random.number()}_${faker.internet.email()}`
 
         const res = await chai.request(server)
             .post("/api/v1/auth/register")
