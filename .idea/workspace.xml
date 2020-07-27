@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="5f432001-ca9c-4321-a8bf-328c8a9bb5e5" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1f5BgoWSMfTLZ4YalEpZeeYtYGJ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="TERMINAL_CUSTOM_COMMANDS_GOT_IT" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/events/listeners" />
+    <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/events/listeners" />
+      <recent name="$PROJECT_DIR$/test/api/auth" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5f432001-ca9c-4321-a8bf-328c8a9bb5e5" name="Default Changelist" comment="" />
+      <created>1595498186900</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1595498186900</updated>
+      <workItem from="1595498188840" duration="3127000" />
+      <workItem from="1595505514454" duration="4688000" />
+      <workItem from="1595571708434" duration="17931000" />
+      <workItem from="1595663351031" duration="316000" />
+      <workItem from="1595746293092" duration="269000" />
+      <workItem from="1595829731582" duration="6267000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="652" y="266" width="615" height="490" key="find.popup" timestamp="1595502809367">
+      <screen x="0" y="23" width="1920" height="977" />
+    </state>
+    <state x="652" y="266" width="615" height="490" key="find.popup/0.23.1920.977@0.23.1920.977" timestamp="1595502809367" />
+  </component>
+</project>
