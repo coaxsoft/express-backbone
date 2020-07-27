@@ -9,8 +9,8 @@
 ## How to build && test
 
  - get the `sh` script (currently in development)
- - make the working `.env` file connected to the test database. It's needed for testing
- - make sure `.env` && `script.sh` are in the same directory.
+ - make the working `.env.example` file connected to the test database. It's needed for testing
+ - make sure `.env.example` && `script.sh` are in the same directory.
  - run `bash script.sh`
 
 ## REST + PostgreSQL setup
