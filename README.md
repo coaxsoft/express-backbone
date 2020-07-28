@@ -23,6 +23,5 @@
 
  - run `git checkout core`
  - copy `.env.example` to `.env` and set up credentials
- - execute `npm run m`
  - run `npm run test`
  - `app/routes/apiRoutes` with "test" endpoint on the branch core is only for testing purpose. it will be replaced in the build.
