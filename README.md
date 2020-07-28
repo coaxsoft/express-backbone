@@ -11,16 +11,10 @@
  - make sure `.env.example` && `script.sh` are in the same directory.
  - run `bash script.sh`
 
-## REST + PostgreSQL setup
+## REST + PostgreSQL setup && development
 
+ - run `git checkout REST_PostgreSQL`
+ - run `bash fetchCore.sh`
  - copy `.env.example` to `.env` and set up credentials
  - execute `npm run m`
- 
-## Available Scripts
-
- - `npm start` runs server with native node 
- - `npm run dev` runs with nodemon for development
- - `npm run lint` checks your code with ESLint.
- - `npm test` runs all test from /test folder
- - `npm run coverage` to check your code test coverage
- 
+ - run `npm run test`
