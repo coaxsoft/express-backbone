@@ -39,7 +39,7 @@ describe("Registration tests - api/v1/auth/register - POST", () => {
     });
 
     it("Returns 200 with user in the body", async () => {
-        const email = `${faker.random.word()}_${faker.internet.email()}`
+        const email = `${faker.random.number()}_${faker.internet.email()}`
 
         const res = await chai.request(server)
             .post("/api/v1/auth/register")
@@ -55,7 +55,7 @@ describe("Registration tests - api/v1/auth/register - POST", () => {
     });
 
     it("Returns 200 and run function to send email with verification", async () => {
-        const email = `${faker.random.word()}_${faker.internet.email()}`
+        const email = `${faker.random.number()}_${faker.internet.email()}`
 
         await chai.request(server)
             .post("/api/v1/auth/register")
@@ -64,7 +64,9 @@ describe("Registration tests - api/v1/auth/register - POST", () => {
                 lastName: "last",
                 password: "123123",
                 email
-            }).then(() => {
+            }).then((res) => {
+                res.should.have.status(200);
+
                 return new Promise(resolve => {
                     setTimeout(() => {
                         sendVerificationEmailSpy.called.should.be.equal(true);
