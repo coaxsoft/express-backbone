@@ -1,14 +1,12 @@
 ## Branches description
 
- - `dev` - worked version "REST + PostgreSQL"
- - `core` - core part
- - `core_dev` - commit here to improve the core part. Then pull request to `core`
+ - `dev` - working version "REST + PostgreSQL"
+ - `core` - core part. Base core for all builds
  - `REST_PostgreSQL` - contains the controllers and model for the "REST + PostgreSQL" build
- - `REST_PostgreSQL_dev` - commit here to improve "REST + PostgreSQL" build. Then pull request to `REST_PostgreSQL`
 
 ## How to build && test
 
- - get the `sh` script (currently in development)
+ - get the `sh` script (currently in development) - ask Myrko.
  - make the working `.env.example` file connected to the test database. It's needed for testing
  - make sure `.env.example` && `script.sh` are in the same directory.
  - run `bash script.sh`
