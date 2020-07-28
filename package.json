@@ -7,8 +7,7 @@
     "dev": "nodemon --inspect ./bin/www",
     "lint": "./node_modules/.bin/eslint .",
     "test": "NODE_ENV=test mocha test/* --recursive --bail --exit",
-    "coverage": "nyc npm run test",
-    "m": "sequelize db:migrate && sequelize db:migrate --env test"
+    "coverage": "nyc npm run test"
   },
   "dependencies": {
     "aws-sdk": "^2.661.0",
