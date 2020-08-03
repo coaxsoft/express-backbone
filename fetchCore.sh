@@ -10,6 +10,8 @@ cp express-backbone-"$coreBranch"/.env.example .env.example
 
 rm -rf express-backbone-"$coreBranch"
 
+node modifyPackage.js
+
 npm install
 
 npm i --save $(<packages.txt)
