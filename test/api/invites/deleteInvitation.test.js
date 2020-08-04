@@ -1,13 +1,11 @@
 const chai = require("chai");
 const should = chai.should();
 const expect = chai.expect;
-const chaiHttp = require("chai-http");
-const server = require("../../../app/app");
 const { Invite } = require('../../../app/db/models');
 
 const { createUserAndFetchToken } = require("../../utils")
 
-chai.use(chaiHttp);
+const { authRequest } = require("../../requestSender");
 
 describe("Delete invitation", () => {
 
@@ -20,9 +18,8 @@ describe("Delete invitation", () => {
     });
 
     it("Returns 200 and deletes invitation", async () => {
-        const res = await chai.request(server)
-            .delete(`/api/v1/invites/${invitation.id}`)
-            .set('Authorization', `Bearer ${token}`);
+        const res = await authRequest(token, "delete", `/api/v1/invites/${invitation.id}`);
+
         res.should.have.status(200);
         const deletedInvite = await Invite.findOne({ where: { id: invitation.id } });
         expect(deletedInvite).to.be.equal(null)

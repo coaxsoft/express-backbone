@@ -1,14 +1,12 @@
 const chai = require("chai");
 const should = chai.should();
 const expect = chai.expect;
-const chaiHttp = require("chai-http");
 const faker = require("faker");
 const sinon = require("sinon");
-const server = require("../../../app/app");
 const emitter = require("../../../app/events/emitter");
 const mailer = require("../../../app/services/mailer");
 
-chai.use(chaiHttp);
+const { request } = require("../../requestSender");
 
 describe("Registration tests - api/v1/auth/register - POST", () => {
 
@@ -27,13 +25,11 @@ describe("Registration tests - api/v1/auth/register - POST", () => {
     });
 
     it("Returns 422 without password", async () => {
-        const res = await chai.request(server)
-            .post("/api/v1/auth/register")
-            .send({
-                firstName: "name",
-                lastName: "last",
-                email: "test@test.com"
-            });
+        const res = await request("post", "/api/v1/auth/register", {
+            firstName: "name",
+            lastName: "last",
+            email: "test@test.com"
+        });
 
         res.should.have.status(422);
     });
@@ -41,14 +37,12 @@ describe("Registration tests - api/v1/auth/register - POST", () => {
     it("Returns 200 with user in the body", async () => {
         const email = `${faker.random.number()}_${faker.internet.email()}`
 
-        const res = await chai.request(server)
-            .post("/api/v1/auth/register")
-            .send({
-                firstName: "name",
-                lastName: "last",
-                password: "123123",
-                email
-            });
+        const res = await request("post", "/api/v1/auth/register", {
+            firstName: "name",
+            lastName: "last",
+            password: "123123",
+            email
+        });
 
         res.should.have.status(200);
         expect(res.body.user.email).to.be.equal(email.toLowerCase());
@@ -57,14 +51,12 @@ describe("Registration tests - api/v1/auth/register - POST", () => {
     it("Returns 200 and run function to send email with verification", async () => {
         const email = `${faker.random.number()}_${faker.internet.email()}`
 
-        await chai.request(server)
-            .post("/api/v1/auth/register")
-            .send({
-                firstName: "name",
-                lastName: "last",
-                password: "123123",
-                email
-            }).then((res) => {
+        await request("post", "/api/v1/auth/register", {
+            firstName: "name",
+            lastName: "last",
+            password: "123123",
+            email
+        }).then((res) => {
                 res.should.have.status(200);
 
                 return new Promise(resolve => {

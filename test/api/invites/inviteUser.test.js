@@ -1,16 +1,14 @@
 const chai = require("chai");
 const should = chai.should();
 const expect = chai.expect;
-const chaiHttp = require("chai-http");
 const faker = require("faker");
 const sinon = require("sinon");
-const server = require("../../../app/app");
 const emitter = require("../../../app/events/emitter");
 const mailer = require("../../../app/services/mailer");
 
 const { createUserAndFetchToken } = require("../../utils")
 
-chai.use(chaiHttp);
+const { authRequest } = require("../../requestSender");
 
 describe("User invitation", () => {
 
@@ -30,15 +28,12 @@ describe("User invitation", () => {
         emitter.off("userInvitation", eventSpy);
     });
 
-    it("Rins function to sends invitation email", async () => {
+    it("Runs function to sends invitation email", async () => {
         const email = faker.internet.email();
-        await chai.request(server)
-            .post("/api/v1/invites/")
-            .set('Authorization', `Bearer ${token}`)
-            .send({
-                slug: "test",
-                email
-            }).then((res) => {
+        await authRequest(token, "post", "/api/v1/invites/", {
+            slug: "test",
+            email
+        }).then((res) => {
                 res.should.have.status(200);
                 return new Promise(resolve => {
                     setTimeout(() => {
