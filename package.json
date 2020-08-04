@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon --inspect ./bin/www",
-    "lint": "./node_modules/.bin/eslint .",
+    "lint": "eslint 'app/**/*.js' 'test/**/*.js'",
+    "lintFix": "eslint 'app/**/*.js' 'test/**/*.js' --fix",
     "test": "NODE_ENV=test mocha test/* --recursive --bail --exit",
     "coverage": "nyc npm run test"
   },
@@ -47,6 +48,26 @@
   "eslintConfig": {
     "extends": [
       "@coax/eslint-config-be"
-    ]
+    ],
+    "rules": {
+      "no-console": [
+        "error",
+        {
+          "allow": [
+            "info",
+            "error"
+          ]
+        }
+      ],
+      "no-await-in-loop": "off",
+      "no-case-declarations": "off",
+      "no-unused-vars": [
+        "error",
+        {
+          "varsIgnorePattern": "should|expect",
+          "argsIgnorePattern": "next|Sequelize"
+        }
+      ]
+    }
   }
 }
