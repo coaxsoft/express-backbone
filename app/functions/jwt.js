@@ -4,11 +4,11 @@ module.exports = {
   generateJWT: (user) => {
     const userFields = user.getJWTFields();
 
-    return jwt.sign(userFields, process.env.SECRET, { expiresIn: process.env.JWT_EXPIRATION });
+    return jwt.sign(userFields, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
   },
   verifyJWT: (token) => {
     try {
-      return jwt.verify(token, process.env.SECRET);
+      return jwt.verify(token, process.env.JWT_SECRET);
     } catch (e) {
       return false;
     }

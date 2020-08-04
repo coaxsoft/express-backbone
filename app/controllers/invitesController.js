@@ -1,10 +1,9 @@
 const { v4: uuidv4 } = require('uuid');
-const { Invite, Sequelize } = require('../db/models');
-const { sendInvitationEmail } = require('../emails/inviteEmail');
+const { Invite } = require('../db/models');
+const emitter = require("../events/emitter");
 
 async function inviteUser(req, res, next) {
   const { email, slug } = req.body;
-
   const existingInvite = await Invite.findOne({ where: { email } });
   if (existingInvite) return next({ status: 409 });
 
@@ -13,7 +12,9 @@ async function inviteUser(req, res, next) {
     inviteCode: uuidv4(),
     authorId: req.user.id
   });
-  sendInvitationEmail(invite, req.headers.host, slug);
+
+  emitter.emit("userInvitation", invite, slug);
+
   return res.json(invite);
 }
 

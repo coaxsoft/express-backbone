@@ -10,7 +10,7 @@ const moment = require('moment');
 
 const jwtOpts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.SECRET,
+  secretOrKey: process.env.JWT_SECRET,
   passReqToCallback: true
 };
 
