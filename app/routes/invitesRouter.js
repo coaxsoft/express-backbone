@@ -12,6 +12,8 @@ router.use(passport.authenticate('jwt', { session: false }));
 router.post('/', inviteSchema, validate, (req, res, next) => {
     invitesController.inviteUser(req, res, next).catch(e => next(e))
 });
-router.delete('/:id', invitesController.deleteInvitation);
+router.delete('/:id', (req, res, next) => {
+    invitesController.deleteInvitation(req, res, next).catch(e => next(e))
+});
 
 module.exports = router;

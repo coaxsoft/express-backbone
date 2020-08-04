@@ -1,5 +1,5 @@
 const jwt = require('../functions/jwt');
-const { mailjet } = require('../emails/mailProvider');
+const { mailjet } = require('./mailProvider');
 
 class MailerService {
 
