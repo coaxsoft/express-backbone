@@ -12,34 +12,21 @@ async function getUser(req, res) {
 async function getUsers(req, res) {
   const { search, page, perPage: limit } = req.query;
   const offset = getOffset(page, limit);
-  console.log(offset);
   let where = {};
   if (search) {
     where = {
       [Op.or]: [{
-        email: {
-          [Op.like]: `${search}%`
-        }
+        email: { [Op.like]: `${search}%` }
       }, {
-        firstName: {
-          [Op.like]: `${search}%`
-        }
+        firstName: { [Op.like]: `${search}%` }
       }, {
-        lastName: {
-          [Op.like]: `${search}%`
-        }
+        lastName: { [Op.like]: `${search}%` }
       }]
     };
   }
 
   const users = await User.findAndCountAll({
-    include: [{
-      model: Role,
-      attributes: ['id', 'roleName'],
-      through: {
-        attributes: []
-      }
-    }],
+    include: [{ model: Role, attributes: ['id', 'roleName'], through: { attributes: [] } }],
     where,
     offset,
     limit,
@@ -83,11 +70,18 @@ async function removeRole(req, res) {
   return res.json(user);
 }
 
+async function getLoggedUser (req, res, next) {
+  const user = await User.findOne({ id: req.user.id });
+
+  return res.json(user);
+}
+
 module.exports = {
   getUser,
   getUsers,
   deleteUser,
   restoreUser,
   addRole,
-  removeRole
+  removeRole,
+  getLoggedUser
 };
