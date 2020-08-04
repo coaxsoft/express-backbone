@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
-const { Invite } = require('../db/models');
+const { Invite, User, sequelize } = require('../db/models');
+const jwt = require('../functions/jwt');
 const emitter = require("../events/emitter");
 
 async function inviteUser(req, res, next) {
@@ -41,21 +42,33 @@ async function cancelInvitation(req, res) {
   return updateResult[0] ? res.end() : res.status(400).end(); //TODO redirect?
 }
 
-async function acceptInvitation(req, res) {
+async function acceptInvitation(req, res, next) {
   const { inviteCode } = req.params;
+  const { password } = req.body;
 
-  const updateResult = await Invite.update({
-    status: Invite.constants.acceptedInvite
-  }, {
-    where: {
-      inviteCode: inviteCode,
-      status: Invite.constants.newInvite
+  let transaction = {};
+  try {
+    transaction = await sequelize.transaction();
+
+    const invitation = await Invite.findOne({ where: { inviteCode, status: Invite.constants.newInvite }, transaction });
+    if (!invitation) {
+      return next({
+        status: 403,
+        message: "Invitation not found",
+      });
     }
-  });
 
-  //TODO create user and login?
+    const newUser = await User.create({ email: invitation.email, password }, { transaction });
 
-  return updateResult[0] ? res.end() : res.status(400).end(); //TODO redirect?
+    const token = jwt.generateJWT(newUser);
+    await invitation.update({ status: Invite.constants.acceptedInvite }, { transaction })
+    await transaction.commit();
+
+    return res.json({ token });
+  } catch (e) {
+    if (transaction) await transaction.rollback();
+    throw e;
+  }
 }
 
 
