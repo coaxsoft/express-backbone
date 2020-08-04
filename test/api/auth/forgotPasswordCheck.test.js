@@ -1,29 +1,29 @@
-const chai = require("chai");
+const chai = require('chai');
 const should = chai.should();
 const expect = chai.expect;
-const { User, PasswordReset } = require("../../../app/db/models");
+const { User, PasswordReset } = require('../../../app/db/models');
 
-const { request } = require("../../requestSender");
+const { request } = require('../../requestSender');
 
-describe("Forgot password check - api/v1/auth/check-forgot-password - POST", () => {
-    it("Returns 404 if user is not found by the code", async () => {
-        const res = await request("post", "/api/v1/auth/check-forgot-password", {
-            code: "fake",
-            password: "not-fake"
-        });
-
-        res.should.have.status(404);
+describe('Forgot password check - api/v1/auth/check-forgot-password - POST', () => {
+  it('Returns 404 if user is not found by the code', async () => {
+    const res = await request('post', '/api/v1/auth/check-forgot-password', {
+      code: 'fake',
+      password: 'not-fake'
     });
 
-    it("Returns 200", async () => {
-        const user = await User.generate();
-        const passReset = await PasswordReset.generate({ userId: user.id });
+    res.should.have.status(404);
+  });
 
-        const res = await request("post", "/api/v1/auth/check-forgot-password", {
-            code: passReset.code,
-            password: "not-fake"
-        });
+  it('Returns 200', async () => {
+    const user = await User.generate();
+    const passReset = await PasswordReset.generate({ userId: user.id });
 
-        res.should.have.status(200);
-    })
+    const res = await request('post', '/api/v1/auth/check-forgot-password', {
+      code: passReset.code,
+      password: 'not-fake'
+    });
+
+    res.should.have.status(200);
+  })
 });

@@ -35,7 +35,7 @@ async function upload(file) {
 }
 
 async function remove(key) {
-  s3.deleteObject({ ...params, Key: key }, (err, data) => {
+  s3.deleteObject({ ...params, Key: key }, (err) => {
     if (err) console.error(err, err.stack);
   });
 }

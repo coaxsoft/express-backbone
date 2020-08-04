@@ -1,5 +1,5 @@
-const uniqid = require("uniqid");
-const faker = require("faker");
+const uniqid = require('uniqid');
+const faker = require('faker');
 
 module.exports = (sequelize, DataTypes) => {
   const Invite = sequelize.define('Invite', {

@@ -1,4 +1,4 @@
-const faker = require("faker");
+const faker = require('faker');
 
 module.exports = (sequelize, DataTypes) => {
   const PasswordReset = sequelize.define('PasswordReset', {

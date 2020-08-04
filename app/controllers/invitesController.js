@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const { Invite, User, sequelize } = require('../db/models');
 const jwt = require('../functions/jwt');
-const emitter = require("../events/emitter");
+const emitter = require('../events/emitter');
 
 async function inviteUser(req, res, next) {
   const { email, slug } = req.body;
@@ -14,7 +14,7 @@ async function inviteUser(req, res, next) {
     authorId: req.user.id
   });
 
-  emitter.emit("userInvitation", invite, slug);
+  emitter.emit('userInvitation', invite, slug);
 
   return res.json(invite);
 }
@@ -54,7 +54,7 @@ async function acceptInvitation(req, res, next) {
     if (!invitation) {
       return next({
         status: 403,
-        message: "Invitation not found",
+        message: 'Invitation not found',
       });
     }
 

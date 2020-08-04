@@ -1,5 +1,5 @@
 const { checkSchema } = require('express-validator');
-const { email, password } = require("../general");
+const { email, password } = require('../general');
 
 module.exports = checkSchema({
   email,

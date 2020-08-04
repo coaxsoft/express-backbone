@@ -2,7 +2,7 @@ const moment = require('moment');
 const { v4: uuidv4 } = require('uuid');
 const { User, PasswordReset, Role, Sequelize } = require('../db/models');
 const jwt = require('../functions/jwt');
-const emitter = require("../events/emitter");
+const emitter = require('../events/emitter');
 
 async function emailAuth(req, res) {
   const token = jwt.generateJWT(req.user);
@@ -29,7 +29,7 @@ async function register(req, res, next) {
       }]
     });
 
-    emitter.emit("userRegistration", user);
+    emitter.emit('userRegistration', user);
 
     return res.json({ user });
   } catch (e) {
@@ -67,7 +67,7 @@ async function forgotPassword(req, res, next) {
   await user.setPasswordReset(code);
   user = await User.findOne({ where: { email }, include: [{ model: PasswordReset }] });
 
-  emitter.emit("forgotPassword", user, slug);
+  emitter.emit('forgotPassword', user, slug);
 
   return res.status(204).end();
 }
