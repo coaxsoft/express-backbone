@@ -4,12 +4,16 @@
  - `core` - core part. Base core for all builds without the database connected and with one test api endpoint.
  - `REST_PostgreSQL` - contains the controllers and model for the "REST + PostgreSQL" build
 
-## How to build && test
+## How to build
 
  - get the `sh` script (currently in development) - ask Myrko.
+ - run `bash script.sh`
+ 
+## Build with tests
+
  - make the working `.env.example` file connected to the test database. It's needed for testing
  - make sure `.env.example` && `script.sh` are in the same directory.
- - run `bash script.sh`
+ - run `bash script.sh test`. it will run the tests inside the build.
 
 ## REST + PostgreSQL setup && development
 
