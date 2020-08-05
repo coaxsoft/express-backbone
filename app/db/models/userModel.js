@@ -65,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
 
-  User.generate = async (options) => {
+  User.generate = async (options = {}) => {
 
     const role = await sequelize.models.Role.findOne({ where: { roleName: options.role || 'User' } });
 
