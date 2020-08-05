@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     roleName: DataTypes.STRING
   }, {});
   Role.associate = function(models) {
-    Role.belongsToMany(models.User, { through: 'Role_User', foreignKey: 'roleId', timestamps: false });
+    Role.belongsToMany(models.User, { through: 'RoleUser', foreignKey: 'roleId', timestamps: false });
   };
 
   return Role;

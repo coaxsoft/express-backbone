@@ -13,12 +13,20 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: new Date()
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: new Date()
       }
+    }).then(function () {
+      const roles = ['Admin', 'User'];
+
+      queryInterface.sequelize.query(queryInterface.bulkInsert('Roles', roles.map(item => {
+        return { roleName: item };
+      })));
     });
   },
   down: (queryInterface) => {

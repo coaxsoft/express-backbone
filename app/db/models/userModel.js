@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   User.associate = function(models) {
     User.hasOne(models.PasswordReset, { foreignKey: 'userId' });
-    User.belongsToMany(models.Role, { through: 'Role_User', foreignKey: 'userId', timestamps: false })
+    User.belongsToMany(models.Role, { through: 'RoleUser', foreignKey: 'userId', timestamps: false })
   };
   User.prototype.getJWTFields = function() {
     return {
@@ -66,6 +66,9 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   User.generate = async (options) => {
+
+    const role = await sequelize.models.Role.findOne({ where: { roleName: options.role || 'User' } });
+
     const entityToSave = {
       email: `${uniqid()}_${faker.internet.email()}`,
       firstName: faker.name.firstName(),
@@ -77,6 +80,11 @@ module.exports = (sequelize, DataTypes) => {
     };
 
     const response = await User.create({ ...entityToSave, ...options });
+
+    await sequelize.query(`
+        INSERT INTO "RoleUser" ("roleId", "userId")
+        VALUES (${role.id}, ${response.id});
+    `);
 
     return response;
   };
