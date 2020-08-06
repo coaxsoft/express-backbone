@@ -1,4 +1,4 @@
-## Branches description
+## Branches description - DONT MERGE THESE BRANCHES TOGETHER! 
 
  - `dev` - working version "REST + PostgreSQL"
  - `core` - core part. Base core for all builds without the database connected and with one test api endpoint.
