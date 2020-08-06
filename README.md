@@ -23,6 +23,14 @@
  - execute `npm run m`
  - run `npm run test`
  
+## GraphQL + PostgreSQL setup && development
+
+ - run `git checkout GraphQL_PostgreSQL`
+ - run `bash fetchCore.sh`
+ - copy `.env.example` to `.env` and set up credentials
+ - execute `npm run m`
+ - run `npm run test`
+ 
 ## Core setup && development
 
  - run `git checkout core`
