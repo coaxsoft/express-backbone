@@ -71,7 +71,7 @@ async function removeRole(req, res) {
 }
 
 async function getLoggedUser (req, res, next) {
-  const user = await User.findOne({ id: req.user.id });
+  const user = await User.findOne({ where: { id: req.user.id } });
 
   return res.json(user);
 }

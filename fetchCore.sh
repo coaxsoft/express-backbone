@@ -2,7 +2,6 @@ coreBranch="core"
 
 curl -L https://codeload.github.com/Myrko-SM/express-backbone/zip/"$coreBranch" | tar zx
 
-cp express-backbone-"$coreBranch"/app/app.js app/app.js
 cp express-backbone-"$coreBranch"/package.json package.json
 mkdir "bin"
 cp express-backbone-"$coreBranch"/bin/www bin/www

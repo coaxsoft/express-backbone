@@ -2,7 +2,6 @@
 node_modules/
 
 # core files
-app/app.js
 bin/www
 .env.example
 .env
