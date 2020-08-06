@@ -1,32 +1,9 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
-
-# Dependency directories
-node_modules/
-jspm_packages/
 .idea/
-.DS_Store/
-# Typescript v1 declaration files
-typings/
+node_modules/
 
-# Optional npm cache directory
-.npm
-
-# Optional eslint cache
-.eslintcache
-
-# dotenv environment variables file
+# core files
+bin/www
+.env.example
 .env
-/uploads/
-/.nyc_output/
-
+package.json
+package-lock.json
