@@ -1,5 +1,5 @@
 const jwt = require('../functions/jwt');
-const { mailjet } = require('./mailProvider');
+const mailjet = require('node-mailjet').connect(process.env.MAILJET_PUBLIC_KEY, process.env.MAILJET_PRIVATE_KEY);
 
 class MailerService {
 
