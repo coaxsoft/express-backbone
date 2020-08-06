@@ -3,6 +3,7 @@
  - `dev` - working version "REST + PostgreSQL"
  - `core` - core part. Base core for all builds without the database connected and with one test api endpoint.
  - `REST_PostgreSQL` - contains the controllers and model for the "REST + PostgreSQL" build
+ - `GraphQL_PostgreSQL` - contains the controllers and model for the "GraphQL + PostgreSQL" build
 
 ## How to build
 
