@@ -7,7 +7,7 @@
 
 ## How to build
 
- - get the `sh` script (currently in development) - ask Myrko.
+ - get the `sh` script (currently in development) - ask @Myrko-SM.
  - run `bash script.sh`
  
 ## Build with tests
