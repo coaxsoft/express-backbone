@@ -3,7 +3,22 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const passport = require('passport');
-const routes = require('./routes/apiRoutes');
+const { graphqlHTTP } = require('express-graphql');
+const { buildSchema } = require('graphql');
+
+// Construct a schema, using GraphQL schema language
+const schema = buildSchema(`
+  type Query {
+    hello: String
+  }
+`);
+
+// The root provides a resolver function for each API endpoint
+const root = {
+  hello: () => {
+    return 'Hello world!';
+  },
+};
 
 const app = express();
 
@@ -18,11 +33,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(passport.initialize());
 
-app.get('/', (req, res, next) => {
-  res.render('homepage', {})
-});
-
-app.use('/api/v1', routes);
+app.use('/graphql', graphqlHTTP({
+  schema: schema,
+  rootValue: root,
+  graphiql: true,
+}));
 
 app.use(function(req, res, next) {
   next({ status: 404, message: 'Not Found' });

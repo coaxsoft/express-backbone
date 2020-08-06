@@ -14,3 +14,4 @@ node modifyPackage.js
 npm install
 
 npm i --save $(<packages.txt)
+npm i --save-dev $(<dev-packages.txt)
