@@ -1,1 +1,1 @@
-express-graphql graphql
+express-graphql graphql sequelize pg-hstore pg
