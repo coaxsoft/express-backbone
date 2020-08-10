@@ -14,3 +14,5 @@ node modifyPackage.js
 npm install
 
 npm i --save $(<packages.txt)
+
+bash dbSetup.sh

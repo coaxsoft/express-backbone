@@ -7,3 +7,7 @@ bin/www
 .env
 package.json
 package-lock.json
+
+# db setup files
+.sequelizerc
+app/db
