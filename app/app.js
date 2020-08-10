@@ -20,10 +20,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(passport.initialize());
 
-app.use('/graphql', graphqlHTTP({
-  schema: schema,
-  rootValue: rootResolvers,
-  graphiql: true,
+app.use('/graphql', graphqlHTTP((req, res) => {
+  return {
+    schema: schema,
+    rootValue: rootResolvers,
+    graphiql: true,
+    context: { req, res }
+  }
 }));
 
 app.use(function(req, res, next) {

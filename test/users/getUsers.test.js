@@ -12,6 +12,5 @@ describe('Testing users query', () => {
       .send({ query: '{ users { firstName lastName } }' })
       .expect(200);
 
-    console.log(res.body);
   });
 })
