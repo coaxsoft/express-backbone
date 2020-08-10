@@ -30,3 +30,6 @@ typings/
 /uploads/
 /.nyc_output/
 
+# db setup files
+.sequelizerc
+app/db

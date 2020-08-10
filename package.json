@@ -20,6 +20,7 @@
     "express-validator": "^6.4.0",
     "faker": "^4.1.0",
     "jsonwebtoken": "latest",
+    "lodash": "^4.17.19",
     "mime-types": "^2.1.27",
     "moment": "^2.24.0",
     "morgan": "~1.9.1",
