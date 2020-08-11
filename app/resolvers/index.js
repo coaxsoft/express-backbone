@@ -7,7 +7,6 @@ module.exports = {
     return [{
       firstName: 'boss',
       lastName: 'bosssss',
-      test: 'wefwef'
     }];
   },
 
