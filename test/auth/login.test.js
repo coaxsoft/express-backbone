@@ -31,8 +31,7 @@ describe('Testing login mutation', async () => {
             token
           }
         }`
-      })
-      .expect(200);
+      });
     expect(_.isEmpty(res.body.errors)).to.be.equal(true);
     expect(res.body.data.login.token).to.not.equal(null);
   })

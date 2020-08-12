@@ -2,10 +2,10 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const passport = require('passport');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./schema');
 const rootResolvers = require('./resolvers');
+const authMiddleware = require('./middlewares/jwt');
 
 const app = express();
 
@@ -18,14 +18,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(passport.initialize());
 
-app.use('/graphql', graphqlHTTP((req, res) => {
+app.use('/graphql', authMiddleware, graphqlHTTP((req) => {
   return {
     schema: schema,
     rootValue: rootResolvers,
     graphiql: true,
-    context: { req, res }
+    context: { user: req.user }
   }
 }));
 

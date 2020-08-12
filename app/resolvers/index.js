@@ -1,16 +1,21 @@
 const bcrypt = require('bcrypt');
-const { User, Role } = require('../db/models');
-const jwt = require("../utils/jwt");
+const { User } = require('../db/models');
+const jwt = require('../utils/jwt');
+const _ = require('lodash');
 
 module.exports = {
-  users: () => {
+  users: (root, ctx) => {
+    if (_.isNull(ctx.user) || _.isUndefined(ctx.user)) {
+      throw new Error('You are not authorized!')
+    }
+
     return [{
       firstName: 'boss',
       lastName: 'bosssss',
     }];
   },
 
-  login: async (root, ctx) => {
+  login: async (root) => {
     const user = await User.scope(['withPassword', 'withRoles']).findOne({ where: { email: root.email } });
 
     if (!user || !user.password) {
