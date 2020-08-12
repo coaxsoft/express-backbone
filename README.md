@@ -8,14 +8,8 @@
 
 ## How to build
 
- - get the `sh` script (currently in development) - ask @Myrko-SM.
+ - get the `sh` scripts (currently in development) - ask @Myrko-SM.
  - run `bash script.sh`
- 
-## Build with tests
-
- - make the working `.env.example` file connected to the test database. It's needed for testing
- - make sure `.env.example` && `script.sh` are in the same directory.
- - run `bash script.sh test`. it will run the tests inside the build.
 
 ## REST + PostgreSQL setup && development
 
