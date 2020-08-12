@@ -20,7 +20,8 @@
 ## REST + PostgreSQL setup && development
 
  - run `git checkout REST_PostgreSQL`
- - run `bash fetchCore.sh`
+ - check `dbSetup.sh` - set proper repo name
+ - run `bash fetchCore.sh` - check this file and set proper repo name
  - copy `.env.example` to `.env` and set up credentials
  - execute `npm run m`
  - run `npm run test`
@@ -28,7 +29,8 @@
 ## GraphQL + PostgreSQL setup && development
 
  - run `git checkout GraphQL_PostgreSQL`
- - run `bash fetchCore.sh`
+ - check `dbSetup.sh` - set proper repo name
+ - run `bash fetchCore.sh` - check this file and set proper repo name
  - copy `.env.example` to `.env` and set up credentials
  - execute `npm run m`
  - run `npm run test`
