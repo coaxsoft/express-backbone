@@ -1,8 +1,21 @@
-dbBranch="PostgreSQL_DB_setup"
+# -- gather variables ---
+if [ -z "$dbBranch" ]; then
+    dbBranch="PostgreSQL_DB_setup"
+fi
 
-curl -L https://codeload.github.com/Myrko-SM/express-backbone/zip/"$dbBranch" | tar zx
+if [ -z "$repoName" ]; then
+    repoName="express-backbone"
+fi
 
-cp express-backbone-"$dbBranch"/.sequelizerc .sequelizerc
-rsync -av express-backbone-"$dbBranch"/app/db app/
+if [ -z "$downloadLink" ]; then
+    downloadLink=https://codeload.github.com/Myrko-SM/"$repoName"/zip/
+fi
 
-rm -rf express-backbone-"$dbBranch"
+# --------
+
+curl -L "$downloadLink""$dbBranch" | tar zx
+
+cp "$repoName"-"$dbBranch"/.sequelizerc .sequelizerc
+rsync -av "$repoName"-"$dbBranch"/app/db app/
+
+rm -rf "$repoName"-"$dbBranch"
