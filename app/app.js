@@ -3,8 +3,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const { graphqlHTTP } = require('express-graphql');
-const schema = require('./schema');
-const rootResolvers = require('./resolvers');
+const schema = require('./graphql/schema');
 const authMiddleware = require('./middlewares/jwt');
 
 const app = express();
@@ -22,7 +21,6 @@ app.use(cookieParser());
 app.use('/graphql', authMiddleware, graphqlHTTP((req) => {
   return {
     schema: schema,
-    rootValue: rootResolvers,
     graphiql: true,
     context: { user: req.user }
   }
