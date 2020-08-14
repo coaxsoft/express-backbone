@@ -1,6 +1,6 @@
 coreBranch="core"
 repoName="express-backbone"
-downloadLink=https://codeload.github.com/Myrko-SM/"$repoName"/zip/
+downloadLink=https://codeload.github.com/coaxsoft/"$repoName"/zip/
 
 curl -L "$downloadLink""$coreBranch" | tar zx
 
