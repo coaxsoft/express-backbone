@@ -1,13 +1,15 @@
 coreBranch="core"
+repoName="express-backbone"
+downloadLink=https://codeload.github.com/Myrko-SM/"$repoName"/zip/
 
-curl -L https://codeload.github.com/Myrko-SM/express-backbone/zip/"$coreBranch" | tar zx
+curl -L "$downloadLink""$coreBranch" | tar zx
 
-cp express-backbone-"$coreBranch"/package.json package.json
+cp "$repoName"-"$coreBranch"/package.json package.json
 mkdir "bin"
-cp express-backbone-"$coreBranch"/bin/www bin/www
-cp express-backbone-"$coreBranch"/.env.example .env.example
+cp "$repoName"-"$coreBranch"/bin/www bin/www
+cp "$repoName"-"$coreBranch"/.env.example .env.example
 
-rm -rf express-backbone-"$coreBranch"
+rm -rf "$repoName"-"$coreBranch"
 
 node modifyPackage.js
 
