@@ -54,6 +54,15 @@ const schema = new GraphQLSchema({
         //     return 'world';
         // },
       },
+      registration: {
+        type: tokenType,
+        args: {
+          email: { type: GraphQLString },
+          password: { type: GraphQLString },
+          firstName: { type: GraphQLString },
+          lastName: { type: GraphQLString },
+        },
+      },
     },
   })
 });
